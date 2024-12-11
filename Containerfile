@@ -70,19 +70,6 @@ RUN paru -S \
 USER root
 WORKDIR /
 
-# Cleanup
-# Native march & tune. This is a gaming image and not something a user is going to compile things in with the intent to share.
-# We do this last because it'll only apply to updates the user makes going forward. We don't want to optimize for the build host's environment.
-RUN sed -i 's@ (Runtime)@@g' /usr/share/applications/steam.desktop && \
-    sed -i 's/-march=x86-64 -mtune=generic/-march=native -mtune=native/g' /etc/makepkg.conf && \
-    userdel -r build && \
-    rm -drf /home/build && \
-    sed -i '/build ALL=(ALL) NOPASSWD: ALL/d' /etc/sudoers && \
-    sed -i '/root ALL=(ALL) NOPASSWD: ALL/d' /etc/sudoers && \
-    rm -rf \
-        /tmp/* \
-        /var/cache/pacman/pkg/*
-
 FROM bazzite-arch as bazzite-arch-gnome
 
 # Replace KDE portal with GNOME portal, swap included icon theme.
