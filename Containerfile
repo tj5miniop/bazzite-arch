@@ -49,9 +49,7 @@ RUN pacman -Syyu && \
         # Steam/Lutris/Wine installed separately so they use the dependencies above and don't try to install their own.
 
 # Create build user
-RUN useradd -m --shell=/bin/bash build && usermod -L build && \
-    echo "build ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
-    echo "root ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+RUN useradd -m --shell=/bin/bash build && usermod -L build && usermod -aG sudo build \
 
 # Install AUR packages
 USER build
